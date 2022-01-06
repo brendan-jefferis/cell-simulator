@@ -1,0 +1,26 @@
+{
+  "name": "cell-simulator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "dev": "parcel src/index.html",
+    "prebuild": "npm i",
+    "build": "parcel build src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.4.7",
+    "parcel": "^2.1.0",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
