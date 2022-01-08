@@ -8,3 +8,8 @@ export interface Cell {
 }
 
 export type Grid = Cell[][]
+
+export interface CellMetadata {
+  cell: Cell
+  pos: Point
+}

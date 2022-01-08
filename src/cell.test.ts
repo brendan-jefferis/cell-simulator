@@ -1,4 +1,4 @@
-import { livingNeighboursCount, shouldLive, nextCellPosition } from './cell'
+import { livingNeighboursCount, shouldLive, nextPosition } from './cell'
 import { Cell } from './model'
 
 describe('livingNighboursCount', () => {
@@ -57,7 +57,7 @@ describe('shouldLive', () => {
   })
 })
 
-describe('nextCellPosition', () => {
+describe('nextPosition', () => {
   const GRID: Cell[][] = [
     [{ alive: false }, { alive: true }, { alive: false }],
     [{ alive: true }, { alive: true }, { alive: true }],
@@ -65,32 +65,32 @@ describe('nextCellPosition', () => {
   ]
 
   it('should not wrap cell if in-bounds', () => {
-    const result = nextCellPosition(GRID, { y: 1, x: 1 })
+    const result = nextPosition(GRID, { y: 1, x: 1 })
     expect(result).toEqual({ y: 1, x: 1 })
   })
 
   it('should not wrap if out-of-bounds', () => {
-    const result = nextCellPosition(GRID, { y: 10, x: 10 })
+    const result = nextPosition(GRID, { y: 10, x: 10 })
     expect(result).toEqual({ y: 10, x: 10 })
   })
 
   it('should wrap cell if spawned in grid perimeter (x-axis, r-l)', () => {
-    const result = nextCellPosition(GRID, { y: 0, x: 3 })
+    const result = nextPosition(GRID, { y: 0, x: 3 })
     expect(result).toEqual({ y: 0, x: 0 })
   })
 
   it('should wrap cell if spawned in grid perimeter (x-axis, l-r)', () => {
-    const result = nextCellPosition(GRID, { y: 0, x: -1 })
+    const result = nextPosition(GRID, { y: 0, x: -1 })
     expect(result).toEqual({ y: 0, x: 2 })
   })
 
   it('should wrap cell if spawned in grid perimeter (y-axis, t-b)', () => {
-    const result = nextCellPosition(GRID, { y: -1, x: 0 })
+    const result = nextPosition(GRID, { y: -1, x: 0 })
     expect(result).toEqual({ y: 2, x: 0 })
   })
 
   it('should wrap cell if spawned in grid perimeter (y-axis, b-t)', () => {
-    const result = nextCellPosition(GRID, { y: 3, x: 0 })
+    const result = nextPosition(GRID, { y: 3, x: 0 })
     expect(result).toEqual({ y: 0, x: 0 })
   })
 })
