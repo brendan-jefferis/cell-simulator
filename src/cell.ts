@@ -1,4 +1,4 @@
-import { Cell, CellMetadata, Grid, Point } from './model'
+import { Cell, Grid, Point } from './model'
 
 const cellAtPoint =
   (grid: Grid) =>
@@ -32,13 +32,10 @@ export const shouldLive = (livingNeighbours: number, cell: Cell): boolean => {
 
 export const nextState =
   (grid: Grid) =>
-  (point: Point): CellMetadata => {
+  (point: Point): Cell => {
     const cell = cellAtPoint(grid)(point)
     return {
-      cell: {
-        alive: shouldLive(livingNeighboursCount(grid, point), cell)
-      },
-      pos: nextPosition(grid, point)
+      alive: shouldLive(livingNeighboursCount(grid, point), cell)
     }
   }
 

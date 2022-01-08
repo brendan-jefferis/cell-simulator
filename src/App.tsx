@@ -1,8 +1,13 @@
 import React from 'react'
-import { init } from './grid'
 import Grid from './components/Grid/Grid'
+import SimProvider from './state/SimProvider'
+import Controls from './components/Controls/Controls'
 
 export default function App() {
-  const grid = init(6)
-  return <Grid grid={grid} />
+  return (
+    <SimProvider>
+      <Grid />
+      <Controls />
+    </SimProvider>
+  )
 }
