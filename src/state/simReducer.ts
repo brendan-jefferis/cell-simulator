@@ -13,6 +13,7 @@ interface Action {
   payload?: any
 }
 
+// FIXME { grid: Grid }
 export type SimState = Grid
 
 export const reducer = (state: SimState, action: Action) => {

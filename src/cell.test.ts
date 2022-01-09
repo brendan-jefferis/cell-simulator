@@ -1,4 +1,4 @@
-import { livingNeighboursCount, shouldLive, nextPosition } from './cell'
+import { livingNeighboursCount, nextState, shouldLive } from './cell'
 import { Cell } from './model'
 
 describe('livingNighboursCount', () => {
@@ -20,7 +20,7 @@ describe('livingNighboursCount', () => {
 })
 
 describe('shouldLive', () => {
-  it('should stay dead if less than 3   neighbours', () => {
+  it('should stay dead if less than 3 neighbours', () => {
     const CELL = { alive: false }
     const result = shouldLive(2, CELL)
     expect(result).toBe(false)
@@ -32,7 +32,7 @@ describe('shouldLive', () => {
     expect(result).toBe(true)
   })
 
-  it('should stay alive if 2 neighbours', () => {
+  it('should stay alive if 3 neighbours', () => {
     const CELL = { alive: true }
     const result = shouldLive(3, CELL)
     expect(result).toBe(true)
@@ -57,40 +57,53 @@ describe('shouldLive', () => {
   })
 })
 
-describe('nextPosition', () => {
+describe('nextState', () => {
   const GRID: Cell[][] = [
-    [{ alive: false }, { alive: true }, { alive: false }],
-    [{ alive: true }, { alive: true }, { alive: true }],
-    [{ alive: false }, { alive: false }, { alive: false }]
+    [{ alive: false }, { alive: false }, { alive: true }, { alive: true }],
+    [{ alive: false }, { alive: false }, { alive: true }, { alive: true }],
+    [{ alive: false }, { alive: true }, { alive: false }, { alive: true }],
+    [{ alive: true }, { alive: false }, { alive: true }, { alive: false }]
   ]
 
-  it('should not wrap cell if in-bounds', () => {
-    const result = nextPosition(GRID, { y: 1, x: 1 })
-    expect(result).toEqual({ y: 1, x: 1 })
+  it('should stay dead if less than 3 neighbours', () => {
+    const pos = { x: 0, y: 0 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(false)
   })
 
-  it('should not wrap if out-of-bounds', () => {
-    const result = nextPosition(GRID, { y: 10, x: 10 })
-    expect(result).toEqual({ y: 10, x: 10 })
+  it('should stay alive if 2 neighbours', () => {
+    const pos = { x: 1, y: 2 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(true)
   })
 
-  it('should wrap cell if spawned in grid perimeter (x-axis, r-l)', () => {
-    const result = nextPosition(GRID, { y: 0, x: 3 })
-    expect(result).toEqual({ y: 0, x: 0 })
+  it('should stay alive if 3 neighbours', () => {
+    const pos = { x: 2, y: 0 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(true)
   })
 
-  it('should wrap cell if spawned in grid perimeter (x-axis, l-r)', () => {
-    const result = nextPosition(GRID, { y: 0, x: -1 })
-    expect(result).toEqual({ y: 0, x: 2 })
+  it('should die if less than 2 neighbours', () => {
+    const pos = { x: 0, y: 3 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(false)
   })
 
-  it('should wrap cell if spawned in grid perimeter (y-axis, t-b)', () => {
-    const result = nextPosition(GRID, { y: -1, x: 0 })
-    expect(result).toEqual({ y: 2, x: 0 })
+  it('should die if more than 3 neighbours', () => {
+    const pos = { x: 2, y: 2 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(false)
   })
 
-  it('should wrap cell if spawned in grid perimeter (y-axis, b-t)', () => {
-    const result = nextPosition(GRID, { y: 3, x: 0 })
-    expect(result).toEqual({ y: 0, x: 0 })
+  it('should revive if exactly 3 neighbours', () => {
+    const pos = { x: 1, y: 1 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(true)
+  })
+
+  it('should wrap living cell (x-axis)', () => {
+    const pos = { x: 0, y: 1 }
+    const result = nextState(GRID)(pos)
+    expect(result.alive).toBe(true)
   })
 })
