@@ -4,7 +4,9 @@ import { ActionTypes, reducer, SimState } from './simReducer'
 import config from '../config'
 import { Point } from '../model'
 
-const initialState: SimState = init(config.gridSize)
+const initialState: SimState = {
+  grid: init(config.gridSize)
+}
 
 interface SimContextType {
   state: SimState

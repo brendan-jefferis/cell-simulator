@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
-import * as Model from '../../model'
 import { SimContext } from '../../state/SimProvider'
+import { Cell, Point } from '../../model'
 
-interface Props extends Model.CellMetadata {}
+interface Props {
+  cell: Cell
+  pos: Point
+}
 
 const Cell: React.FC<Props> = ({ cell, pos }) => {
   const { actions } = useContext(SimContext)

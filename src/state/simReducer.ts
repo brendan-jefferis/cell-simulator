@@ -1,5 +1,5 @@
 import { Grid } from '../model'
-import { init, nextGeneration, updateCell } from '../grid'
+import { init, next, update } from '../grid'
 import config from '../config'
 
 export enum ActionTypes {
@@ -13,22 +13,24 @@ interface Action {
   payload?: any
 }
 
-// FIXME { grid: Grid }
-export type SimState = Grid
+export type SimState = {
+  grid: Grid
+}
 
-export const reducer = (state: SimState, action: Action) => {
+export const reducer = (state: SimState, action: Action): SimState => {
+  const { grid } = state
   switch (action.type) {
     case ActionTypes.RESET:
-      return init(config.gridSize)
+      return { ...state, grid: init(config.gridSize) }
 
     case ActionTypes.NEXT:
-      return nextGeneration(state)
+      return { ...state, grid: next(grid) }
 
     case ActionTypes.TOGGLE_CELL:
       const { alive, pos } = action.payload ?? {}
       if (!pos) throw new Error('Missing position')
 
-      return updateCell(state, alive, pos)
+      return { ...state, grid: update(grid, pos, { alive }) }
 
     default:
       throw new Error(`Unknown action ${action.type}`)

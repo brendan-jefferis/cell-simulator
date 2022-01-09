@@ -3,5 +3,5 @@ interface Config {
 }
 
 export default {
-  gridSize: 6
+  gridSize: 12
 } as Config
